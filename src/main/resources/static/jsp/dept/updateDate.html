@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>部门修改列表</title>
+    <link href="https://cdn.bootcss.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/sb/js/jquery-1.8.3.js"></script>
+    <script>
+        $(function(){
+            var deptno;
+            var url = window.location.search;
+            if (url.indexOf("?")!=-1) {
+                deptno = url.substr(url.indexOf("=")+1);
+            }
+            $.ajax({
+                url:"/sb/dept/toUpdateDept",//请求地址
+                data:{deptno:deptno},
+                dataType:"json",//返回值格式
+                success:function(data){
+                    if(data!=''){//list   要遍历  map不用遍历  给指定位置赋值
+                        $("#dname").val(data.DNAME);
+                        $("#deptno").val(data.DEPTNO);
+                        $("#loc").val(data.LOC);
+                    }
+                }
+            });
+        });
+        function updateDept() {
+            $.ajax({
+                url:"/sb/dept/updateDept",
+                //从指定位置取值
+                data:{dname:$("#dname").val(),loc:$("#loc").val(),deptno:$("#deptno").val()},
+                dataType:"json",
+                type:"post",
+                success:function (data) {
+                    if (data!=''){
+                        alert(data.msg);
+                        window.location.href="/sb/jsp/dept/list.html";
+                    }
+                }
+            })
+        }
+
+    </script>
+    <style>
+        .container{
+            width: 400px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>修改部门信息</h1>
+        </div>
+    </div>
+    <div class="row" >
+        <div class="col-md-12">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <div><input type="hidden" name="deptno" id="deptno"></div>
+                    <label for="inputName" class="col-sm-4 control-label">部门名称：</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="dname" id="dname" class="form-control" id="inputName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputJob" class="col-sm-4 control-label">部门地址：</label>
+                    <div class="col-sm-10">
+                        <input type="text"  name="loc" id="loc" class="form-control" id="inputJob">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button onclick="updateDept()" type="button" class="btn btn-success" >更改</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

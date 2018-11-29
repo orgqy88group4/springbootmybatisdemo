@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.sb.dao.EmpDao">
+    <cache type="org.mybatis.caches.redis.RedisCache" blocking="false"
+           flushInterval="0" readOnly="true" size="1024" eviction="FIFO"/>
+    <!--根据部门编号查询部门列表（存储过程的调用）-->
+    <select id="getListByPro" statementType="CALLABLE" useCache="false">
+    call pkg_emp.pro_query_empbydeptno(#{deptNo,mode=IN,jdbcType=INTEGER},
+    #{empList,mode=OUT,jdbcType=CURSOR,javaType=java.sql.ResultSet,resultMap=el})
+    </select>
+
+    <!--高级映射-->
+    <resultMap id="el" type="emp">
+        <id column="empno" property="empNo"></id>
+        <result column="ename" property="ename"></result>
+        <result column="job" property="job"></result>
+        <result column="sal" property="salary"></result>
+        <result column="hiredate" property="hireDate"></result>
+    </resultMap>
+</mapper>

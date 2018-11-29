@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>查询新闻列表</title>
+    <link th:href="@{/webjars/bootstrap/4.1.1/css/bootstrap.css}" rel="stylesheet">
+    <script th:href="@{/webjars/bootstrap/4.1.1/css/bootstrap.js}"></script>
+    <script th:href="@{/webjars/jquery/3.0.0/jquery.js}"></script>
+    <script th:inline="javascript">
+        var msg = [[${msg}]];
+        if(msg!=null){
+            alert(msg);
+        }
+        function deletel(newsId) {
+            if (confirm("确定删除吗？")){
+                return window.location.href="/sb/news/del?newsId="+newsId;
+            }
+        }
+    </script>
+</head>
+<body>
+    <!--<h1>新闻列表</h1>-->
+    <!--<tr><td><a href="/sb/news/toAdd">添加</a></td></tr>-->
+    <!--<table border="1">-->
+        <!--<tr><td>标题</td><td>内容</td><td>类型</td><td>图片</td><td>操作</td></tr>-->
+        <!--<tr th:each="news : ${newList}">-->
+            <!--<td th:text="${news.TITLE}"> </td>-->
+            <!--<td th:text="${news.CONTENT}"> </td>-->
+            <!--<td th:text="${news.TYPEID}"></td>-->
+            <!--<td  ><IMG src="/........-->
+              <!--files://D:/files/Jin.jpg"> </td>-->
+            <!--<td ><a th:href="@{/news/updateId(newsId=${news.NEWSID})}">更新</a> &nbsp;-->
+                <!--<a th:onclick="'javascript:deleteUser('+${news.NEWSID}+')' ">删除</a> </td>-->
+                <!--&lt;!&ndash;<a th:href="@{/news/del(newsId=${news.NEWSID})}">删除</a> </td>&ndash;&gt;-->
+        <!--</tr>-->
+    <!--</table>-->
+<!--</body>-->
+<!--</html>-->
+<!--<script>-->
+    <!--function deleteUser(newsId) {-->
+        <!--if (confirm("确定删除吗？")){-->
+            <!--return window.location.href="/sb/news/del?newsId="+newsId;-->
+        <!--}-->
+    <!--}-->
+<!--</script>-->
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>新闻列表</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 col-md-offset-8">
+            <a class="btn btn-primary" href="/sb/news/toAdd">新增</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-hover table-striped">
+                <tr>
+                    <td>标题</td><td>内容</td><td>类型</td><td>图片</td><td>操作</td>
+                </tr>
+                <!--<c:forEach items="${empList}" var="emp">-->
+                    <tr th:each="news : ${newList}">
+                        <td th:text="${news.TITLE}"> </td>
+                        <td th:text="${news.CONTENT}"> </td>
+                        <td th:text="${news.TYPEID}"></td>
+                        <td  ><IMG height="60px" width="60px" th:src="@{/news/show(fileName=${news.PICPATH})}"><a th:href="@{/news/downLoad(fileName=${news.PICPATH})}">下载</a> </td>
+                                                         <!--th:src="'/sboot/news/show?fileName='+${news.PICPATH}"-->
+
+                        <td>
+                            <a type="button"  th:href="@{/news/updateId(newsId=${news.NEWSID})}" class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                                编辑</a>
+                            <a type="button"  th:href="'javascript:deletel('+${news.NEWSID}+')' " class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true" ></span>
+                                删除</a>
+                        </td>
+                    </tr>
+
+                <!--</c:forEach>-->
+                <tr><td colspan="5" align="center" th:utext=" ${pageString} " ></td> </tr>
+
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

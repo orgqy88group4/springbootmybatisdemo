@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>部门添加列表</title>
+    <link href="https://cdn.bootcss.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/sb/js/jquery-1.8.3.js"></script>
+    <script>
+        function addDept() {
+           $.ajax({
+               url:"/sb/dept/addSaveDept",
+               type:"post",
+               dataType:"json",
+               data:{dname:$("#dname").val(),loc:$("#loc").val()},
+               success:function(data) {
+                   if (data!=''){
+                       alert(data.msg);
+                       window.location.href="/sb/jsp/dept/list.html";
+                   }
+               }
+           });
+        }
+    </script>
+    <style>
+        .container{
+            width: 400px;
+        }
+    </style>
+
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>添加部门信息</h1>
+        </div>
+    </div>
+    <div class="row" >
+        <div class="col-md-12">
+            <form class="form-horizontal">
+
+                <div class="form-group">
+                    <div class="col-sm-10">
+                        <input type="text"  name="dname" id="dname" class="form-control" placeholder="请填写部门名称">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-10">
+                        <input type="text"  name="loc" id="loc" class="form-control"  placeholder="请填写部门地址">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button onclick="addDept()" type="button" class="btn btn-success">添加</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
